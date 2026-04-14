@@ -3,120 +3,589 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ideal Town | لوحة التحكم الجديدة</title>
+    <title>IDEAL TOWN | النظام المتكامل العملاق</title>
     
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ============================================================
+           SECTION 1: ADVANCED CSS STYLING (Approx 350 Lines)
+           ============================================================ */
         :root {
             --primary: #349ae9;
-            --bg: #060d16;
-            --card: rgba(255, 255, 255, 0.05);
+            --primary-dark: #2980b9;
+            --bg-body: #050a0f;
+            --bg-sidebar: #070e16;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --police-blue: #1e3a8a;
+            --ems-red: #991b1b;
+            --justice-gold: #854d0e;
+            --success: #10b981;
+            --danger: #ef4444;
+            --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* الأساسيات */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
         body {
-            background-color: var(--bg);
-            color: white;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             font-family: 'Cairo', sans-serif;
-            margin: 0;
-            padding: 20px;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* الأنيميشن العام */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes glow { 0% { box-shadow: 0 0 5px var(--primary); } 50% { box-shadow: 0 0 20px var(--primary); } 100% { box-shadow: 0 0 5px var(--primary); } }
+
+        /* سكرول بار */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-body); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; border: 2px solid var(--bg-body); }
+
+        /* الهيدر (Navbar) */
+        .navbar {
+            height: 90px;
+            background: rgba(5, 10, 15, 0.9);
+            backdrop-filter: blur(15px);
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            padding: 0 60px;
+            border-bottom: 2px solid var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: fadeInDown 0.8s ease;
         }
-        .admin-card {
-            background: var(--card);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--primary);
-            color: white;
-            border-radius: 8px;
-            font-family: 'Cairo';
-        }
-        button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 8px;
+
+        .nav-brand { font-size: 28px; font-weight: 900; color: var(--primary); letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 35px; }
+        .nav-item {
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-dim);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .nav-item:hover, .nav-item.active { color: var(--primary); transform: translateY(-2px); }
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
             width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* السايد بار (Sidebar) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 360px;
+            height: 100vh;
+            background: var(--bg-sidebar);
+            border-left: 3px solid var(--primary);
+            z-index: 2000;
+            padding: 50px 30px;
+            transition: var(--transition-smooth);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.8);
+        }
+        .sidebar.active { right: 0; }
+        .sidebar-title { font-size: 22px; margin-bottom: 40px; color: var(--primary); border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            background: var(--bg-card);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+        .sidebar-link:hover { background: rgba(52, 154, 233, 0.1); border-color: var(--primary); transform: scale(1.03); }
+        .sidebar-link i { font-size: 20px; width: 30px; text-align: center; }
+
+        /* أزرار تسجيل الدخول */
+        .btn-discord {
+            background: #5865f2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition-smooth);
+        }
+        .btn-discord:hover { background: #4752c4; box-shadow: 0 0 20px #5865f2; transform: translateY(-3px); }
+
+        /* أقسام المحتوى */
+        .page { display: none; padding: 60px 5%; max-width: 1400px; margin: auto; animation: fadeInUp 0.8s ease; }
+        .page.active { display: block; }
+
+        /* الهيرو سكشن (Hero) */
+        .hero { text-align: center; margin-bottom: 100px; }
+        .hero h1 { font-size: 100px; line-height: 1; color: var(--primary); margin-bottom: 20px; font-weight: 900; }
+        .hero p { font-size: 24px; color: var(--text-dim); max-width: 800px; margin: auto; }
+
+        /* الكروت الإحصائية */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+        .stat-card:hover { border-color: var(--primary); transform: translateY(-10px); background: rgba(52, 154, 233, 0.05); }
+        .stat-card i { font-size: 50px; color: var(--primary); margin-bottom: 20px; }
+        .stat-card h3 { font-size: 18px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
+        .stat-card .val { font-size: 45px; font-weight: 900; margin-top: 10px; display: block; }
+
+        /* مركز التقديمات (Applications) */
+        .apply-box { background: var(--bg-card); border: 1px solid var(--border); padding: 50px; border-radius: 40px; max-width: 900px; margin: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .form-label { display: block; margin-bottom: 12px; font-weight: 800; color: var(--primary); font-size: 16px; }
+        .form-input {
+            width: 100%;
+            background: #000;
+            border: 2px solid var(--border);
+            padding: 18px;
+            color: white;
+            border-radius: 15px;
+            font-family: 'Cairo';
+            font-size: 17px;
+            margin-bottom: 25px;
             transition: 0.3s;
         }
-        button:hover { opacity: 0.8; }
-        .status { margin-top: 15px; font-size: 14px; color: #4caf50; display: none; }
+        .form-input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(52, 154, 233, 0.3); }
+
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .btn-submit:hover { filter: brightness(1.2); letter-spacing: 2px; box-shadow: 0 10px 30px var(--primary-glow); }
+
+        /* الداش بورد (Dashboard List) */
+        .app-item {
+            background: #0d141d;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-right: 10px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .app-item:hover { transform: scale(1.01); background: #121c29; }
+        .app-details h4 { font-size: 24px; color: var(--primary); margin-bottom: 10px; }
+        .app-details p { color: #ccc; margin: 4px 0; }
+
+        .control-btns { display: flex; gap: 15px; }
+        .btn-action { padding: 12px 25px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-acc { background: var(--success); color: white; }
+        .btn-rej { background: var(--danger); color: white; }
+        .btn-del { background: #333; color: white; }
+
+        /* نظام القوانين (Laws) */
+        .law-card { background: var(--bg-card); padding: 30px; border-radius: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .law-card h2 { color: var(--primary); margin-bottom: 15px; border-right: 4px solid var(--primary); padding-right: 15px; }
+        
+        /* التنبيهات (Toast) */
+        #toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-weight: 900;
+            transition: 0.5s;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
     </style>
 </head>
 <body>
 
-    <div class="admin-card">
-        <i class="fas fa-user-shield fa-3x" style="color: var(--primary); margin-bottom: 15px;"></i>
-        <h2>إدارة Ideal Town الجديدة</h2>
-        <p>أضف محتوى لقاعدة البيانات مباشرة</p>
-        
-        <hr style="opacity: 0.1; margin: 20px 0;">
+    <div id="toast">تمت العملية بنجاح!</div>
 
-        <input type="text" id="itemTitle" placeholder="العنوان (مثلاً: قانون الطيران)">
-        <textarea id="itemDesc" rows="4" placeholder="الوصف أو نص القانون..."></textarea>
+    <div id="sideDrawer" class="sidebar">
+        <div class="sidebar-title">لوحة تحكم الأقسام العليا</div>
         
-        <button onclick="saveData()">نشر الآن <i class="fas fa-paper-plane"></i></button>
-        
-        <div id="statusMsg" class="status">تم النشر بنجاح في السيرفر الجديد! ✓</div>
+        <div class="sidebar-link" onclick="openAdminPanel('police')">
+            <i class="fas fa-shield-alt" style="color: #3b82f6"></i>
+            <span>إدارة شؤون الشرطة</span>
+        </div>
+        <div class="sidebar-link" onclick="openAdminPanel('ems')">
+            <i class="fas fa-hand-holding-medical" style="color: #ef4444"></i>
+            <span>إدارة شؤون الإسعاف</span>
+        </div>
+        <div class="sidebar-link" onclick="openAdminPanel('justice')">
+            <i class="fas fa-gavel" style="color: #f59e0b"></i>
+            <span>إدارة شؤون العدل</span>
+        </div>
+        <div class="sidebar-link" onclick="openAdminPanel('admin')">
+            <i class="fas fa-users-cog" style="color: #8b5cf6"></i>
+            <span>الإدارة العامة للسيرفر</span>
+        </div>
+        <div class="sidebar-link" onclick="openAdminPanel('social')">
+            <i class="fas fa-camera-retro" style="color: #ec4899"></i>
+            <span>إدارة السوشل ميديا</span>
+        </div>
+
+        <div style="margin-top: 50px; border-top: 1px solid var(--border); padding-top: 20px;">
+            <p style="font-size: 12px; color: var(--text-dim); text-align: center;">جميع الحقوق محفوظة لـ IDEAL TOWN &copy; 2026</p>
+        </div>
     </div>
 
+    <nav class="navbar">
+        <div class="nav-brand">IDEAL TOWN</div>
+        
+        <div class="nav-links">
+            <div class="nav-item active" onclick="changePage('home_section', this)">الرئيسية</div>
+            <div class="nav-item" onclick="changePage('police_section', this)">الشرطة</div>
+            <div class="nav-item" onclick="changePage('laws_section', this)">القوانين</div>
+            <div class="nav-item" onclick="changePage('store_section', this)">المتجر</div>
+            <div class="nav-item" onclick="changePage('apply_section', this)">التقديمات</div>
+            <div class="nav-item" onclick="changePage('news_section', this)">الأخبار</div>
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <button class="btn-discord" id="authButton" onclick="handleAuth()">
+                <i class="fab fa-discord"></i>
+                <span>تسجيل الدخول</span>
+            </button>
+            <i class="fas fa-th-large" onclick="toggleSidebar()" style="font-size: 26px; cursor: pointer; color: var(--primary);"></i>
+        </div>
+    </nav>
+
+    <section id="home_section" class="page active">
+        <div class="hero">
+            <h1>IDEAL TOWN</h1>
+            <p>نحن لا نقدم مجرد سيرفر، نحن نقدم لك حياة ثانية في مدينة الأحلام. تفاعل، العب، وانطلق في تجربة لا تنسى.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <h3>إجمالي اللاعبين</h3>
+                <span class="val" id="stat_total">2,450</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-wifi"></i>
+                <h3>المتواجدون حالياً</h3>
+                <span class="val" id="stat_online">142</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-code-branch"></i>
+                <h3>تحديثات السكربتات</h3>
+                <span class="val">+400</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle" style="color: var(--success)"></i>
+                <h3>حالة الاتصال</h3>
+                <span class="val" style="color: var(--success)">LIVE</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="laws_section" class="page">
+        <h1 style="text-align:center; font-size:50px; margin-bottom:50px;">دستور المدينة</h1>
+        <div class="law-card">
+            <h2>القوانين العامة</h2>
+            <p>1. يمنع منعا باتا الخروج عن التقمص (Out of Character) داخل اللعبة.</p>
+            <p>2. الاحترام المتبادل بين جميع اللاعبين والاداريين هو أساس السيرفر.</p>
+        </div>
+        <div class="law-card">
+            <h2>قوانين السطو والسرقات</h2>
+            <p>1. يجب وجود 4 عساكر على الأقل للقيام بعملية سطو على البنك المركزي.</p>
+        </div>
+    </section>
+
+    <section id="apply_section" class="page">
+        <div class="apply-box">
+            <h2 style="text-align: center; margin-bottom: 40px; font-size: 35px;">مركز تقديم الطلبات الموحد</h2>
+            
+            <div class="form-group">
+                <label class="form-label">الجهة المراد التقديم عليها</label>
+                <select class="form-input" id="app_target" onchange="initDynamicForm()">
+                    <option value="">-- اختر الجهة --</option>
+                    <option value="police">سلك الشرطة</option>
+                    <option value="ems">سلك الإسعاف الوطني</option>
+                    <option value="admin">الطاقم الإداري</option>
+                    <option value="justice">وزارة العدل</option>
+                    <option value="social">فريق السوشل ميديا</option>
+                </select>
+            </div>
+
+            <div id="dynamic_form_area">
+                </div>
+
+            <button class="btn-submit" onclick="submitFinalApp()">إرسال الطلب بشكل رسمي</button>
+        </div>
+    </section>
+
+    <section id="admin_panel_section" class="page">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
+            <h1 id="panel_title">لوحة التحكم</h1>
+            <div class="stat-card" style="padding:15px 30px; border-radius:15px;">
+                <span id="pending_label">الطلبات المعلقة: 0</span>
+            </div>
+        </div>
+
+        <div id="admin_list_render">
+            </div>
+    </section>
+
+    <section id="news_section" class="page">
+        <h1 style="text-align:center; margin-bottom:40px;">نتائج طلباتك الأخيرة</h1>
+        <div id="user_news_feed" style="max-width: 800px; margin: auto;"></div>
+    </section>
+
     <script>
-        // إعدادات Firebase من صورتك الأخيرة
+        /* --- تهيئة Firebase --- */
         const firebaseConfig = {
             apiKey: "AIzaSyACXJdBLFAJJvGRtawSj6el_yvWpDkG_vU",
             authDomain: "ideal-website-2786f.firebaseapp.com",
             databaseURL: "https://ideal-website-2786f-default-rtdb.firebaseio.com",
             projectId: "ideal-website-2786f",
             storageBucket: "ideal-website-2786f.appspot.com",
-            messagingSenderId: "644257022389",
             appId: "1:644257022389:web:fbdf65d839385d820054c2"
         };
-
-        // تشغيل Firebase
         firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        const db = firebase.database();
+        const auth = firebase.auth();
 
-        function saveData() {
-            const title = document.getElementById('itemTitle').value;
-            const desc = document.getElementById('itemDesc').value;
+        let currentUser = null;
+        const webhooks = {
+            police: "https://discord.com/api/webhooks/1491139055373648023/Bzbv_J0k5ON9G-lahfN-XR3UHL5a1LezHf-B-zx8Cl4_VqFq77yiw3P3p1U-_5LUXfFI",
+            ems: "https://ptb.discord.com/api/webhooks/1491140934086426725/TvzhUQaLwtdncPqTDv9DUquEjhvFiF8T1evkCABMIQwYbaMXHEPJgDdPxLsalgvjFKT0",
+            justice: "https://ptb.discord.com/api/webhooks/1493589134021754890/OCgy0c9FakhDdbL2O2W1bIgjwFIYkT1Vf-Pfc2wcf9w43tW20qyPTihXvBBlhxCh_44Y",
+            admin: "https://ptb.discord.com/api/webhooks/1491140491780161537/TQTXHNgGChj3mGxrVSW7X9WM5KbZlemuRzw62h5g_Tu8SYNyKzqpvjNTsjDoR2qy2gGL",
+            social: "https://ptb.discord.com/api/webhooks/1491140740565172234/HfiRk6Qshn-UAa61xdWS8EdmKG6kLtCZTVaoowKV1dq8cHojILzscoQcqwvpwBZOEpKX"
+        };
 
-            if(title && desc) {
-                // إرسال البيانات لقسم اسمه "news" في السيرفر
-                database.ref('news').push({
-                    title: title,
-                    description: desc,
-                    date: new Date().toLocaleString()
-                }).then(() => {
-                    document.getElementById('statusMsg').style.display = 'block';
-                    document.getElementById('itemTitle').value = '';
-                    document.getElementById('itemDesc').value = '';
-                    setTimeout(() => {
-                        document.getElementById('statusMsg').style.display = 'none';
-                    }, 3000);
-                });
+        /* --- الدوال العامة --- */
+        function toggleSidebar() { document.getElementById('sideDrawer').classList.toggle('active'); }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function changePage(pageId, navEl) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            navEl.classList.add('active');
+            if(pageId === 'news_section') fetchMyNotifications();
+        }
+
+        /* --- نظام الهوية (Auth) --- */
+        function handleAuth() {
+            auth.signInAnonymously().then(res => {
+                currentUser = res.user;
+                document.getElementById('authButton').innerHTML = `<i class="fas fa-check-circle"></i> متصل`;
+                document.getElementById('authButton').style.background = "#10b981";
+                showToast("تم تسجيل الدخول بنجاح!");
+            });
+        }
+
+        /* --- بناء فورم التقديم الذكي --- */
+        function initDynamicForm() {
+            const target = document.getElementById('app_target').value;
+            const area = document.getElementById('dynamic_form_area');
+            if(!target) { area.innerHTML = ''; return; }
+
+            let fields = `
+                <div class="form-group">
+                    <label class="form-label">يوزر الديسكورد</label>
+                    <input type="text" id="inp_discord" class="form-input" readonly value="${currentUser ? 'Player_'+currentUser.uid.substring(0,6) : 'سجل دخول أولاً'}">
+                </div>
+            `;
+
+            if(target === 'police' || target === 'ems' || target === 'justice') {
+                fields += `
+                    <div class="form-group"><label class="form-label">الاسم الكامل داخل السيرفر</label><input type="text" id="inp_name" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">العمر الحقيقي</label><input type="number" id="inp_age" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">لماذا تريد الانضمام لنا؟</label><textarea id="inp_reason" class="form-input" rows="4"></textarea></div>
+                    <div class="form-group"><label class="form-label">هل لديك خبرة سابقة؟</label><select id="inp_exp" class="form-input"><option>نعم</option><option>لا</option></select></div>
+                `;
             } else {
-                alert("الرجاء تعبئة جميع الحقول!");
+                fields += `
+                    <div class="form-group"><label class="form-label">الاسم الحقيقي</label><input type="text" id="inp_name" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">العمر</label><input type="number" id="inp_age" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">رابط أعمالك أو ملفك الشخصي</label><input type="text" id="inp_link" class="form-input"></div>
+                    <div class="form-group"><label class="form-label">تحدث عن خبراتك</label><textarea id="inp_reason" class="form-input" rows="4"></textarea></div>
+                `;
+            }
+            area.innerHTML = fields;
+        }
+
+        /* --- إرسال التقديم --- */
+        function submitFinalApp() {
+            if(!currentUser) { showToast("خطأ: سجل دخولك أولاً!"); return; }
+            const type = document.getElementById('app_target').value;
+            
+            const applicationData = {
+                uid: currentUser.uid,
+                discord: document.getElementById('inp_discord').value,
+                target: type,
+                status: 'pending',
+                time: new Date().toLocaleString(),
+                details: {
+                    name: document.getElementById('inp_name').value,
+                    age: document.getElementById('inp_age').value,
+                    reason: document.getElementById('inp_reason').value
+                }
+            };
+
+            // الرفع لقاعدة البيانات (Firebase Realtime)
+            const ref = db.ref('applications_v2/' + type).push();
+            ref.set(applicationData).then(() => {
+                
+                // إرسال تنبيه للديسكورد (Webhook)
+                fetch(webhooks[type], {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content: `🚀 **تقديم جديد وصل!**\nالجهة: ${type.toUpperCase()}\nالمقدم: ${applicationData.discord}\nالتاريخ: ${applicationData.time}`
+                    })
+                });
+
+                showToast("تم إرسال تقديمك بنجاح!");
+                setTimeout(() => location.reload(), 2000);
+            });
+        }
+
+        /* --- لوحة تحكم الإدارة (Admin View) --- */
+        function openAdminPanel(category) {
+            changePage('admin_panel_section', document.querySelector('.nav-item'));
+            toggleSidebar();
+            document.getElementById('panel_title').innerText = "إدارة قسم : " + category.toUpperCase();
+            
+            const listArea = document.getElementById('admin_list_render');
+            listArea.innerHTML = '<p style="text-align:center;">جاري جلب البيانات...</p>';
+
+            db.ref('applications_v2/' + category).on('value', snap => {
+                listArea.innerHTML = '';
+                let pCount = 0;
+                
+                if(!snap.exists()) {
+                    listArea.innerHTML = '<p style="text-align:center; opacity:0.5;">لا يوجد تقديمات لهذا القسم.</p>';
+                    return;
+                }
+
+                snap.forEach(child => {
+                    const app = child.val();
+                    const key = child.key;
+                    if(app.status === 'pending') {
+                        pCount++;
+                        listArea.innerHTML += `
+                            <div class="app-item">
+                                <div class="app-details">
+                                    <h4>المقدم: ${app.discord}</h4>
+                                    <p>الاسم: ${app.details.name} | العمر: ${app.details.age}</p>
+                                    <p>السبب: ${app.details.reason}</p>
+                                    <small>تاريخ الطلب: ${app.time}</small>
+                                </div>
+                                <div class="control-btns">
+                                    <button class="btn-action btn-acc" onclick="updateAppStatus('${category}', '${key}', 'accepted')">قبول</button>
+                                    <button class="btn-action btn-rej" onclick="updateAppStatus('${category}', '${key}', 'rejected')">رفض</button>
+                                    <button class="btn-action btn-del" onclick="deleteEntry('${category}', '${key}')"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                document.getElementById('pending_label').innerText = "الطلبات المعلقة: " + pCount;
+            });
+        }
+
+        /* --- دوال الإدارة --- */
+        function updateAppStatus(cat, key, stat) {
+            db.ref(`applications_v2/${cat}/${key}`).update({ status: stat }).then(() => {
+                showToast("تم تحديث حالة الطلب.");
+            });
+        }
+
+        function deleteEntry(cat, key) {
+            if(confirm("حذف الطلب؟")) {
+                db.ref(`applications_v2/${cat}/${key}`).remove();
+                showToast("تم حذف الطلب.");
             }
         }
+
+        /* --- عرض النتائج للمستخدم --- */
+        function fetchMyNotifications() {
+            const feed = document.getElementById('user_news_feed');
+            if(!currentUser) { feed.innerHTML = '<p style="text-align:center;">سجل دخولك لرؤية النتائج.</p>'; return; }
+
+            db.ref('applications_v2').on('value', snap => {
+                feed.innerHTML = '';
+                snap.forEach(catSnap => {
+                    catSnap.forEach(appSnap => {
+                        const app = appSnap.val();
+                        if(app.uid === currentUser.uid && app.status !== 'pending') {
+                            feed.innerHTML += `
+                                <div class="stat-card" style="border-color: ${app.status === 'accepted' ? 'var(--success)' : 'var(--danger)'}; margin-bottom:20px;">
+                                    <h2 style="color: ${app.status === 'accepted' ? 'var(--success)' : 'var(--danger)'}">
+                                        ${app.status === 'accepted' ? '✅ تم قبولك بنجاح' : '❌ نعتذر، تم رفض طلبك'}
+                                    </h2>
+                                    <p>لقد تم الرد على طلب انضمامك لقسم: ${app.target}</p>
+                                    <small>التاريخ: ${app.time}</small>
+                                </div>
+                            `;
+                        }
+                    });
+                });
+            });
+        }
+
+        /* --- تحديث إحصائيات وهمية للمنظر --- */
+        setInterval(() => {
+            const online = document.getElementById('stat_online');
+            let val = parseInt(online.innerText);
+            val += Math.floor(Math.random() * 5) - 2;
+            online.innerText = val;
+        }, 5000);
+
     </script>
 </body>
 </html>
