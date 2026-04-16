@@ -9,7 +9,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -429,8 +433,8 @@
         </div>
 
         <div class="nav-left">
-            <button class="btn-discord-login" id="discordLoginBtn" onclick="initDiscordAuth()">
-                <i class="fab fa-discord"></i> <span id="userDisplayName">تسجيل دخول</span>
+<button class="btn-discord-login" id="discordLoginBtn" onclick="initDiscordAuth()">
+<i class="fab fa-discord"></i> <span id="userDisplayName">تسجيل دخول ديسكورد</span>
             </button>
         </div>
     </nav>
@@ -1165,6 +1169,32 @@
         database.ref('registered_users').on('value', (snap) => {
             document.getElementById('stat_users').innerText = snap.numChildren() || 0;
         });
+
+        function initDiscordAuth() {
+    const provider = new firebase.auth.OAuthProvider('oidc.discord');
+    provider.addScope('identify');
+    
+    firebase.auth().signInWithPopup(provider).then((result) => {
+        const user = result.user;
+        // تحديث اسم المستخدم في الصفحة تلقائياً
+        const nameElem = document.getElementById('userDisplayName');
+        if(nameElem) {
+            nameElem.innerText = user.displayName;
+        }
+        
+        // تسجيل بياناته في الـ Database لربطها بالتقديمات
+        firebase.database().ref('registered_users/' + user.uid).update({
+            username: user.displayName,
+            photo: user.photoURL,
+            lastLogin: Date.now()
+        });
+        
+        alert("أهلاً بك يا بطل: " + user.displayName);
+    }).catch((err) => {
+        console.error(err);
+        alert("تأكد من تفعيل Discord في Firebase Console وربط الـ Redirect URL");
+    });
+}
 
     </script>
 </body>
