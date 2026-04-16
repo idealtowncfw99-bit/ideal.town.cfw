@@ -1174,14 +1174,20 @@
     const provider = new firebase.auth.OAuthProvider('oidc.discord');
     provider.addScope('identify');
     
-    firebase.auth().signInWithPopup(provider).then((result) => {
+    firebase.auth().signInWithRedirect(provider);
+}
+
+// هذا الجزء يشتغل أول ما ترجع من الديسكورد للموقع تلقائياً
+firebase.auth().getRedirectResult().then((result) => {
+    if (result.user) {
         const user = result.user;
-        // تحديث اسم المستخدم في الصفحة تلقائياً
-        const nameElem = document.getElementById('userDisplayName');
-        if(nameElem) {
-            nameElem.innerText = user.displayName;
-        }
-        
+        document.getElementById('userDisplayName').innerText = user.displayName;
+        console.log("تم تسجيل الدخول بنجاح:", user.displayName);
+    }
+}).catch((error) => {
+    console.error("خطأ في تسجيل الدخول:", error);
+});
+
         // تسجيل بياناته في الـ Database لربطها بالتقديمات
         firebase.database().ref('registered_users/' + user.uid).update({
             username: user.displayName,
