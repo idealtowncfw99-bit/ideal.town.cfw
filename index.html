@@ -433,8 +433,11 @@
         </div>
 
         <div class="nav-left">
-<button class="btn-discord-login" id="discordLoginBtn" onclick="initDiscordAuth()">
-<i class="fab fa-discord"></i> <span id="userDisplayName">تسجيل دخول ديسكورد</span>
+<button class="btn-google-login" id="googleLoginBtn" onclick="initGoogleAuth()" style="background: #white; color: #444; border: 1px solid #ddd; padding: 10px; border-radius: 5px; cursor: pointer;">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" style="margin-left: 8px; vertical-align: middle;">
+    <span id="userDisplayName">تسجيل دخول بواسطة جوجل</span>
+</button>
+
             </button>
         </div>
     </nav>
@@ -1164,42 +1167,31 @@
                 
                 document.getElementById('main_discord_btn').onclick = () => window.open(c.discordUrl || "#");
             }
-        });
-
-        database.ref('registered_users').on('value', (snap) => {
-            document.getElementById('stat_users').innerText = snap.numChildren() || 0;
-        });
-
-        function initDiscordAuth() {
-    const provider = new firebase.auth.OAuthProvider('oidc.discord');
-    provider.addScope('identify');
+function initGoogleAuth() {
+    const provider = new firebase.auth.GoogleAuthProvider();
     
-    firebase.auth().signInWithRedirect(provider);
-}
-
-// هذا الجزء يشتغل أول ما ترجع من الديسكورد للموقع تلقائياً
-firebase.auth().getRedirectResult().then((result) => {
-    if (result.user) {
+    firebase.auth().signInWithPopup(provider).then((result) => {
         const user = result.user;
-        document.getElementById('userDisplayName').innerText = user.displayName;
-        console.log("تم تسجيل الدخول بنجاح:", user.displayName);
-    }
-}).catch((error) => {
-    console.error("خطأ في تسجيل الدخول:", error);
-});
+        
+        // تحديث اسم المستخدم في الصفحة تلقائياً
+        const nameElem = document.getElementById('userDisplayName');
+        if (nameElem) nameElem.innerText = "أهلاً، " + user.displayName;
 
-        // تسجيل بياناته في الـ Database لربطها بالتقديمات
-        firebase.database().ref('registered_users/' + user.uid).update({
+        // حفظ البيانات في الـ Database (هذا هو الجزء اللي سألت عنه في آخر الصورة)
+        firebase.database().ref('registeredUsers/' + user.uid).set({
             username: user.displayName,
             photo: user.photoURL,
-            lastLogin: Date.now()
+            email: user.email,
+            lastLogin: new Date().toLocaleString()
         });
-        
+
         alert("أهلاً بك يا بطل: " + user.displayName);
-    }).catch((err) => {
-        console.error(err);
-        alert("تأكد من تفعيل Discord في Firebase Console وربط الـ Redirect URL");
+    }).catch((error) => {
+        console.error("خطأ في تسجيل دخول جوجل:", error);
+        alert("تأكد من تفعيل Google في Firebase Console واختيار إيميل الدعم");
     });
+}
+
 }
 
     </script>
