@@ -3,1105 +3,679 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IDEAL TOWN | النظام المتكامل 2026</title>
+    <title>IDEAL TOWN | النسخة الاحترافية الكاملة</title>
     
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <style>
         /* ============================================================
-        SECTION 1: المتغيرات ونظام الألوان (CSS VARIABLES)
-        ============================================================
-        */
+           1. نظام الألوان والمتغيرات (Theming)
+           ============================================================ */
         :root {
-            --bg-deep: #020617; 
-            --bg-light: #0f172a; 
-            --primary-sky: #0ea5e9; 
-            --accent-blue: #38bdf8;
-            --text-white: #ffffff;
-            --text-gray: #94a3b8;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow-glow: rgba(14, 165, 233, 0.15);
-            --error-red: #ef4444;
-            --success-green: #10b981;
-            --gold-color: #fbbf24;
-            --sidebar-width: 380px;
-            --transition-speed: 0.4s;
+            --primary-blue: #007bff;        
+            --discord-color: #5865F2;
+            --primary-glow: rgba(0, 123, 255, 0.5);
+            --bg-deep-black: #050a15;       
+            --bg-card-blue: #0a192f;       
+            --pure-white: #ffffff;
+            --text-gray: #8892b0;
+            --border-blue: rgba(0, 123, 255, 0.2);
+            --transition-smooth: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow-glow: 0 0 15px var(--primary-glow);
         }
 
         /* ============================================================
-        SECTION 2: التنسيق العام (GLOBAL RESET)
-        ============================================================
-        */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-            scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
+           2. التنسيقات العامة (Global Styles)
+           ============================================================ */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Cairo', sans-serif; 
+            cursor: none !important; 
         }
 
-        body {
-            background: linear-gradient(135deg, var(--bg-deep) 0%, var(--bg-light) 100%);
-            color: var(--text-white);
-            min-height: 100vh;
-            overflow-x: hidden;
-            cursor: none; 
+        body { 
+            background-color: var(--bg-deep-black); 
+            color: var(--pure-white); 
+            overflow-x: hidden; 
+            scroll-behavior: smooth; 
             line-height: 1.6;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* تحسين مظهر شريط التمرير */
+        ::-webkit-scrollbar { 
+            width: 8px; 
         }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
+        
+        ::-webkit-scrollbar-track { 
+            background: var(--bg-deep-black); 
         }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-sky);
-            border-radius: 10px;
+        
+        ::-webkit-scrollbar-thumb { 
+            background: var(--primary-blue); 
+            border-radius: 10px; 
         }
 
         /* ============================================================
-        SECTION 3: تأثيرات الماوس الاحترافية
-        ============================================================
-        */
-        #cursor-dot {
+           3. نظام الماوس المتطور (Custom Cursor)
+           ============================================================ */
+        #cursor {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: var(--text-white);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10001;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
-        }
-
-        #cursor-glow {
-            position: fixed;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, var(--shadow-glow) 0%, transparent 70%);
+            width: 12px; 
+            height: 12px;
+            background: var(--pure-white);
             border-radius: 50%;
             pointer-events: none;
             z-index: 10000;
+            box-shadow: 0 0 20px 5px var(--primary-blue);
+            mix-blend-mode: difference;
+        }
+
+        #cursor-aura {
+            position: fixed;
+            width: 450px; 
+            height: 450px;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
             transform: translate(-50%, -50%);
+            transition: 0.15s ease-out;
         }
 
         /* ============================================================
-        SECTION 4: البار العلوي (NAVBAR)
-        ============================================================
-        */
-        .navbar {
-            height: 100px;
-            background: rgba(2, 6, 23, 0.9);
-            backdrop-filter: blur(20px);
+           4. الهيدر والتنقل (Navigation)
+           ============================================================ */
+        nav {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 60px;
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
+            align-items: center;
+            padding: 20px 6%;
+            background: rgba(5, 10, 21, 0.96);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            width: 100%; 
             top: 0;
-            z-index: 999;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            z-index: 2500;
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        .nav-brand {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--pure-white);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-brand span {
+            color: var(--primary-blue);
+            text-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 20px;
+            border-radius: 60px;
+            border: 1px solid var(--border-blue);
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 700;
+            padding: 10px 18px;
+            transition: var(--transition-smooth);
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+
+        .nav-center a:hover, 
+        .nav-center a.active {
+            color: var(--pure-white);
+            background: var(--primary-blue);
+            box-shadow: var(--shadow-glow);
         }
 
         .nav-right {
             display: flex;
+            gap: 12px;
             align-items: center;
-            gap: 20px;
         }
 
-        .nav-brand {
-            font-size: 34px;
-            font-weight: 900;
-            background: linear-gradient(to left, #ffffff, var(--primary-sky));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 15px;
-        }
-
-        .nav-btn {
-            background: transparent;
-            border: 1px solid transparent;
-            color: var(--text-white);
-            padding: 12px 22px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* ============================================================
+           5. الأزرار (Buttons)
+           ============================================================ */
+        .btn-discord {
+            background: var(--discord-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 8px;
+            transition: 0.3s;
+            border: none;
         }
 
-        .nav-btn:hover, .nav-btn.active {
-            background: rgba(14, 165, 233, 0.12);
-            color: var(--primary-sky);
-            border-color: rgba(14, 165, 233, 0.3);
-            transform: translateY(-2px);
+        .btn-discord:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4);
         }
 
-        .sidebar-toggle {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--primary-sky);
-            width: 55px;
-            height: 55px;
-            border-radius: 14px;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .sidebar-toggle:hover {
-            background: var(--primary-sky);
-            color: white;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4);
-        }
-
-        /* ============================================================
-        SECTION 5: القائمة الجانبية (SIDEBAR)
-        ============================================================
-        */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: #010409;
-            border-left: 2px solid var(--primary-sky);
-            padding: 40px 25px;
-            transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 2000;
-            overflow-y: auto;
-            box-shadow: -30px 0 60px rgba(0,0,0,0.9);
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        .sidebar-header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .side-item {
-            background: var(--glass-bg);
-            padding: 22px;
-            border-radius: 18px;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            transition: 0.4s;
-            border: 1px solid var(--glass-border);
+        .btn-dash-access {
+            background: #ff9800;
+            padding: 12px 20px;
+            border-radius: 10px;
             color: white;
             text-decoration: none;
-            cursor: pointer;
-        }
-
-        .side-item i {
-            font-size: 24px;
-            color: var(--primary-sky);
-            width: 30px;
-            text-align: center;
-        }
-
-        .side-item:hover {
-            transform: translateX(-10px);
-            border-color: var(--primary-sky);
-            background: rgba(14, 165, 233, 0.08);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        /* ============================================================
-        SECTION 6: نظام الصفحات والمحتوى
-        ============================================================
-        */
-        .page {
-            display: none;
-            padding: 80px 10%;
-            min-height: calc(100vh - 100px);
-            animation: pageSlideUp 0.7s ease-out forwards;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes pageSlideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 40px auto;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--glass-border);
-            padding: 50px;
-            border-radius: 35px;
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 35px;
-            margin-top: 30px;
-        }
-
-        /* ============================================================
-        SECTION 7: الأزرار وعناصر الإدخال (FORMS)
-        ============================================================
-        */
-        .btn-action {
-            background: linear-gradient(to right, var(--primary-sky), #0284c7);
-            color: white;
-            padding: 18px 40px;
-            border-radius: 18px;
             font-weight: 800;
-            font-size: 18px;
             border: none;
-            cursor: pointer;
-            transition: 0.4s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 8px 15px rgba(14, 165, 233, 0.3);
-        }
-
-        .btn-action:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.5);
-            filter: brightness(1.1);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 18px;
-            background: rgba(2, 6, 23, 0.7);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            color: white;
-            font-size: 16px;
-            margin-bottom: 25px;
             transition: 0.3s;
         }
 
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary-sky);
-            background: rgba(2, 6, 23, 0.9);
-            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+        .btn-login-trigger {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 900;
+            border: none;
+            transition: var(--transition-smooth);
+            cursor: none !important;
         }
 
         /* ============================================================
-        SECTION 8: التنبيهات (TOAST NOTIFICATIONS)
-        ============================================================
-        */
-        #toast-box {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translate(-50%, 200px);
-            background: var(--bg-light);
-            border: 1px solid var(--primary-sky);
+           6. الأقسام (Sections)
+           ============================================================ */
+        section {
+            display: none;
+            padding: 140px 6% 60px 6%;
+            min-height: 100vh;
+        }
+
+        section.active {
+            display: block;
+            animation: fadeInPage 0.8s ease-out;
+        }
+
+        @keyframes fadeInPage {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        /* الصفحة الرئيسية */
+        .hero-container {
+            text-align: center;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-container h1 {
+            font-size: 8rem;
+            font-weight: 950;
+            line-height: 0.8;
+            margin: 20px 0;
+        }
+
+        .hero-container h1 span {
+            -webkit-text-stroke: 2px var(--pure-white);
+            color: transparent;
+        }
+
+        /* نظام القوانين الجديد المبوب */
+        .rules-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .rules-sidebar {
+            background: var(--bg-card-blue);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-blue);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rule-tab {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            cursor: none !important;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .rule-tab:hover, .rule-tab.active {
+            background: var(--primary-blue);
             color: white;
-            padding: 20px 50px;
+            border-color: var(--primary-blue);
+        }
+
+        .rules-content-box {
+            background: rgba(255,255,255,0.02);
+            padding: 40px;
             border-radius: 25px;
-            font-weight: 700;
-            z-index: 100000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            transition: 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid var(--border-blue);
+            min-height: 500px;
+        }
+
+        /* لوحات التحكم */
+        .main-dashboard-wrap {
+            display: flex;
+            gap: 30px;
+            height: 80vh;
+        }
+
+        .side-menu {
+            width: 300px;
+            background: var(--bg-card-blue);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid var(--border-blue);
+        }
+
+        .content-area {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 40px;
+            overflow-y: auto;
+            border: 1px solid var(--border-blue);
+        }
+
+        .menu-item {
             display: flex;
             align-items: center;
             gap: 15px;
+            padding: 15px;
+            color: var(--text-gray);
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: 0.3s;
         }
 
-        #toast-box.show {
-            transform: translate(-50%, 0);
+        .menu-item.active, 
+        .menu-item:hover {
+            background: var(--primary-blue);
+            color: white;
         }
 
-        /* ============================================================
-        SECTION 9: المودالات (MODALS)
-        ============================================================
-        */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* المتجر */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card-blue);
+            border-radius: 25px;
+            overflow: hidden;
+            border: 1px solid var(--border-blue);
+            transition: 0.4s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-blue);
+        }
+
+        .product-img {
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            backdrop-filter: blur(10px);
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--border-blue);
+        }
+
+        /* النوافذ المنبثقة */
+        .modal-overlay {
             display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 9000;
             justify-content: center;
             align-items: center;
-            z-index: 5000;
-            padding: 20px;
         }
 
         .modal-content {
-            background: var(--bg-deep);
+            background: var(--bg-deep-black);
+            width: 500px;
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 0 50px var(--primary-glow);
+        }
+
+        .input-style {
             width: 100%;
-            max-width: 500px;
-            padding: 60px;
-            border-radius: 40px;
-            border: 1px solid var(--primary-sky);
-            text-align: center;
-            position: relative;
-            box-shadow: 0 0 50px rgba(14, 165, 233, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-blue);
+            color: white;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .input-style:focus {
+            border-color: var(--primary-blue);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .status-btn { 
+            padding: 8px 15px; 
+            border-radius: 8px; 
+            border: none; 
+            cursor: none !important; 
+            margin-left: 5px; 
+            font-weight: bold;
+        }
+        
+        .status-accept { background: #27ae60; color: white; }
+        .status-reject { background: #c0392b; color: white; }
+
+        .news-card {
+            background: var(--bg-card-blue);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-right: 5px solid var(--primary-blue);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
     </style>
 </head>
 <body>
 
-    <div id="cursor-glow"></div>
-    <div id="cursor-dot"></div>
-    
-    <div id="toast-box">
-        <i class="fas fa-info-circle"></i>
-        <span id="toast-message">تمت العملية بنجاح</span>
-    </div>
+    <div id="cursor"></div>
+    <div id="cursor-aura"></div>
 
-    <div id="adminLoginModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 id="modalTitleText" style="margin-bottom:35px; color: var(--primary-sky); font-weight: 900;">تسجيل دخول النظام</h2>
-            <div style="text-align:right;">
-                <label class="form-label" style="color:var(--text-gray); display:block; margin-bottom:10px;">اسم المستخدم (ID)</label>
-                <input type="text" id="adminUserInput" placeholder="مثال: Admin_2026" class="form-input">
-                
-                <label class="form-label" style="color:var(--text-gray); display:block; margin-bottom:10px;">كلمة المرور السرية</label>
-                <input type="password" id="adminPassInput" placeholder="••••••••" class="form-input">
-            </div>
-            <button class="btn-action" style="width:100%; margin-top:25px;" onclick="validateAdminAccess()">
-                <i class="fas fa-sign-in-alt"></i> التحقق والدخول
-            </button>
-            <button class="nav-btn" style="width:100%; margin-top:15px; justify-content:center;" onclick="closeAdminModal()">إلغاء العملية</button>
+    <nav>
+        <a href="#" class="nav-brand" onclick="navigate('home')">IDEAL <span>TOWN</span></a>
+        
+        <div class="nav-center">
+            <a href="#" id="link-home" class="active" onclick="navigate('home')">الرئيسية</a>
+            <a href="#" id="link-rules" onclick="navigate('rules')">القوانين</a>
+            <a href="#" id="link-store" onclick="navigate('store')">المتجر</a>
+            <a href="#" id="link-apply" onclick="navigate('apply')">التقديمات</a>
+            <a href="#" id="link-news" onclick="navigate('news')">الأخبار</a>
         </div>
-    </div>
 
-    <nav class="navbar">
         <div class="nav-right">
-            <button class="sidebar-toggle" onclick="toggleMainSidebar()">
-                <i class="fas fa-bars-staggered"></i>
+            <a href="https://discord.gg/yourlink" target="_blank" id="nav-discord-link" class="btn-discord">
+                <i class="fab fa-discord"></i> ديسكورد
+            </a>
+            <button class="btn-dash-access" onclick="openModal('modal-dash-login')">
+                <i class="fas fa-lock"></i> الإدارة
             </button>
-            <div class="nav-brand">IDEAL TOWN</div>
-        </div>
-
-        <div class="nav-links">
-            <button class="nav-btn active" onclick="navigate('home')"><i class="fas fa-home"></i> الرئيسية</button>
-            <button class="nav-btn" onclick="navigate('laws_section')"><i class="fas fa-gavel"></i> الدستور</button>
-            <button class="nav-btn" onclick="navigate('store_section')"><i class="fas fa-shopping-bag"></i> المتجر</button>
-            <button class="nav-btn" onclick="navigate('apply_section')"><i class="fas fa-file-signature"></i> التقديمات</button>
-            <button class="nav-btn" onclick="navigate('news_section')"><i class="fas fa-bullhorn"></i> الأخبار</button>
-        </div>
-
-        <div class="nav-left">
-<button class="btn-google-login" id="googleLoginBtn" onclick="initGoogleAuth()" style="background: #white; color: #444; border: 1px solid #ddd; padding: 10px; border-radius: 5px; cursor: pointer;">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" style="margin-left: 8px; vertical-align: middle;">
-    <span id="userDisplayName">تسجيل دخول بواسطة جوجل</span>
-</button>
-
+            <button class="btn-login-trigger" id="btn-auth-text" onclick="openModal('modal-auth')">
+                دخول / تسجيل
             </button>
         </div>
     </nav>
 
-    <div id="mainSidebar" class="sidebar">
-        <div class="sidebar-header">
-            <h2 style="font-size:30px; font-weight:900; color:var(--primary-sky);">IDEAL TOWN</h2>
-            <p style="color:var(--text-gray); font-size:14px; margin-top:5px;">بوابة الإدارة المتكاملة</p>
-        </div>
-
-        <div id="sidebar_nav_mobile" style="margin-bottom:40px;">
-            </div>
-
-        <h3 style="color:var(--primary-sky); margin-bottom:25px; font-size:18px; font-weight:800; border-right:4px solid var(--primary-sky); padding-right:15px;">لوحات الإدارة والأقسام</h3>
-        
-        <div class="side-item" onclick="triggerLogin('police')">
-            <i class="fas fa-user-police"></i>
-            <div>
-                <p style="font-weight:900;">جهاز الشرطة</p>
-                <small style="color:var(--text-gray);">نظام القبول والانتساب العسكري</small>
+    <section id="page-home" class="active">
+        <div class="hero-container">
+            <h2 style="letter-spacing: 5px; color: var(--primary-blue);">WELCOME TO THE REALITY</h2>
+            <h1 id="main-title-display">IDEAL<br><span>TOWN</span></h1>
+            <p style="max-width: 800px; color: var(--text-gray); font-size: 1.4rem; margin-bottom: 40px;">
+                اكتشف تجربة الحياة الواقعية في أضخم سيرفر عربي. مجتمع متكامل، اقتصاد متوازن، وأنظمة حصرية لم تراها من قبل.
+            </p>
+            <div style="display: flex; gap: 20px;">
+                <button class="btn-login-trigger" id="btn-connect-server" style="font-size: 1.2rem; padding: 15px 40px;" onclick="window.open('fivem://connect/IP_HERE')">ابدأ اللعب الآن</button>
+                <button class="btn-login-trigger" style="font-size: 1.2rem; padding: 15px 40px; background: transparent; border: 2px solid white;" onclick="navigate('apply')">انضم للطاقم</button>
             </div>
         </div>
+    </section>
 
-        <div class="side-item" onclick="triggerLogin('ems')">
-            <i class="fas fa-house-medical"></i>
-            <div>
-                <p style="font-weight:900;">جهاز الإسعاف</p>
-                <small style="color:var(--text-gray);">إدارة الكوادر الطبية والمسعفين</small>
+    <section id="page-rules">
+        <h1 style="text-align: center; font-size: 3rem; margin-bottom: 50px;">ميثاق وأنظمة المدينة</h1>
+        <div class="rules-layout">
+            <div id="rules-categories" class="rules-sidebar">
+                </div>
+            <div id="rules-content-display" class="rules-content-box">
+                <h2 style="color: var(--primary-blue);">اختر قسماً لعرض القوانين</h2>
+                <p style="color: var(--text-gray); margin-top: 15px;">يرجى قراءة القوانين بعناية لتجنب المخالفات داخل السيرفر.</p>
             </div>
         </div>
+    </section>
 
-        <div class="side-item" onclick="triggerLogin('admin')">
-            <i class="fas fa-user-gear"></i>
-            <div>
-                <p style="font-weight:900;">الطاقم الإداري</p>
-                <small style="color:var(--text-gray);">طلبات التوظيف والرقابة</small>
+    <section id="page-apply">
+        <div style="max-width: 900px; margin: auto; background: var(--bg-card-blue); padding: 50px; border-radius: 30px; border: 1px solid var(--border-blue);">
+            <h2>بوابة التوظيف الرسمية</h2>
+            <p style="color: var(--text-gray); margin-bottom: 30px;">اختر الجهة التي ترغب بالانضمام إليها واملأ بياناتك بدقة.</p>
+            
+            <select id="apply-sector" class="input-style" style="height: 60px; font-size: 1.1rem;" onchange="updateApplyForm()">
+                <option value="">-- اختر القطاع --</option>
+                <option value="police">جهاز الشرطة</option>
+                <option value="ems">الإسعاف والطوارئ</option>
+                <option value="admin">الطاقم الإداري</option>
+                <option value="media">صناع المحتوى</option>
+            </select>
+
+            <div id="apply-form-body" style="display: none; margin-top: 30px;">
+                <input type="text" id="apply-name" class="input-style" placeholder="الاسم الكامل" readonly>
+                <textarea id="apply-desc" class="input-style" rows="6" placeholder="لماذا تريد الانضمام؟ وما هي خبراتك السابقة؟"></textarea>
+                <button class="btn-login-trigger" style="width: 100%; padding: 20px; margin-top: 20px;" onclick="submitApplication()">إرسال الطلب</button>
             </div>
         </div>
-        
-        <div class="side-item" style="border-color:var(--gold-color); margin-top:40px;" onclick="triggerLogin('super')">
-            <i class="fas fa-crown" style="color:var(--gold-color);"></i>
-            <div>
-                <p style="font-weight:900; color:var(--gold-color);">مجلس الإدارة العليا</p>
-                <small style="color:var(--text-gray);">لوحة التحكم الكاملة والمطلقة</small>
+    </section>
+
+    <section id="page-store">
+        <h1 style="text-align: center; font-size: 3.5rem; margin-bottom: 50px;">متجر ايديال الحصري</h1>
+        <div id="store-items-container" class="store-grid"></div>
+    </section>
+
+    <section id="page-news">
+        <h1 style="margin-bottom: 40px; text-align: center;">شريط الأخبار والنتائج</h1>
+        <div id="news-feed" style="max-width: 800px; margin: auto;"></div>
+    </section>
+
+    <section id="page-sector-dashboard">
+        <div class="main-dashboard-wrap">
+            <div class="side-menu">
+                <h2 id="sector-label" style="color: var(--primary-blue); margin-bottom: 30px;">اللوحة</h2>
+                <div id="sector-menu-items">
+                    <a href="#" class="menu-item active"><i class="fas fa-file-alt"></i> طلبات التوظيف</a>
+                </div>
+                <button class="btn-login-trigger" style="width: 100%; margin-top: 50px; background: #c0392b;" onclick="location.reload()">خروج</button>
+            </div>
+            <div class="content-area" id="sector-content">
+                <h2>جاري تحميل الطلبات...</h2>
             </div>
         </div>
+    </section>
 
-        <div style="margin-top:60px; text-align:center;">
-            <p style="color:var(--text-gray); font-size:12px;">جميع الحقوق محفوظة &copy; 2026</p>
+    <section id="page-admin-master">
+        <div class="main-dashboard-wrap">
+            <div class="side-menu">
+                <h2 style="color: var(--primary-blue); margin-bottom: 30px;">MASTER ADMIN</h2>
+                <a href="#" class="menu-item" onclick="loadAdminSection('settings')"><i class="fas fa-cog"></i> الإعدادات</a>
+                <a href="#" class="menu-item" onclick="loadAdminSection('rules')"><i class="fas fa-book"></i> إدارة القوانين</a>
+                <a href="#" class="menu-item" onclick="loadAdminSection('store')"><i class="fas fa-shopping-cart"></i> إدارة المتجر</a>
+                <a href="#" class="menu-item" onclick="loadAdminSection('users')"><i class="fas fa-users"></i> المستخدمين</a>
+                <button class="btn-login-trigger" style="width: 100%; margin-top: 50px; background: #c0392b;" onclick="location.reload()">خروج</button>
+            </div>
+            <div class="content-area" id="admin-master-content">
+                <h1>مرحباً بك في لوحة الإدارة العليا</h1>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-auth" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="auth-title">تسجيل الدخول</h2>
+            <div id="auth-login-fields">
+                <input type="text" id="log-user" class="input-style" placeholder="اسم المستخدم">
+                <input type="password" id="log-pass" class="input-style" placeholder="كلمة المرور">
+                <button class="btn-login-trigger" style="width: 100%; margin-top: 20px;" onclick="handleLogin()">دخول</button>
+                <p style="margin-top: 15px; text-align: center; color: var(--text-gray);" onclick="toggleAuth(false)">لا تملك حساب؟ سجل الآن</p>
+            </div>
+            <div id="auth-reg-fields" style="display: none;">
+                <input type="text" id="reg-real" class="input-style" placeholder="الاسم الحقيقي">
+                <input type="text" id="reg-rp" class="input-style" placeholder="اسم الرول بلاي">
+                <input type="password" id="reg-pass" class="input-style" placeholder="كلمة المرور">
+                <button class="btn-login-trigger" style="width: 100%; margin-top: 20px;" onclick="handleRegister()">إنشاء الحساب</button>
+                <p style="margin-top: 15px; text-align: center; color: var(--text-gray);" onclick="toggleAuth(true)">لديك حساب؟ سجل دخول</p>
+            </div>
+            <button onclick="closeModal('modal-auth')" style="background: none; border: none; color: white; margin-top: 10px; width: 100%;">إغلاق</button>
         </div>
     </div>
 
-    <section id="home" class="page active">
-        <div style="text-align:center; margin-bottom:100px; position:relative;">
-            <h1 class="hero-title" style="font-size:120px; font-weight:900; line-height:0.9; text-shadow: 0 10px 30px rgba(0,0,0,0.5);">IDEAL<br><span style="color:var(--primary-sky)">TOWN</span></h1>
-            <p style="font-size:28px; color:var(--text-gray); margin-top:30px; font-weight:600;">بوابتك لتجربة حياة واقعية لا مثيل لها</p>
+    <div id="modal-dash-login" class="modal-overlay">
+        <div class="modal-content">
+            <h2>دخول الموظفين</h2>
+            <input type="text" id="staff-user" class="input-style" placeholder="Staff ID">
+            <input type="password" id="staff-pass" class="input-style" placeholder="Password">
+            <button class="btn-login-trigger" style="width: 100%; margin-top: 20px;" onclick="handleStaffLogin()">تحقق ودخول</button>
+            <button onclick="closeModal('modal-dash-login')" style="background: none; border: none; color: white; margin-top: 10px; width: 100%;">إغلاق</button>
         </div>
+    </div>
 
-        <div class="grid-layout">
-            <div class="card-container" style="text-align:center; margin:0; padding:40px;">
-                <i class="fas fa-users" style="font-size:50px; color:var(--primary-sky); margin-bottom:20px;"></i>
-                <p style="color:var(--text-gray); font-weight:700; font-size:18px;">المواطنون المسجلون</p>
-                <h2 style="font-size:55px; font-weight:900;" id="stat_users">0</h2>
-            </div>
-            <div class="card-container" style="text-align:center; margin:0; padding:40px;">
-                <i class="fas fa-server" style="font-size:50px; color:var(--success-green); margin-bottom:20px;"></i>
-                <p style="color:var(--text-gray); font-weight:700; font-size:18px;">حالة الاتصال</p>
-                <h2 style="font-size:55px; font-weight:900; color:var(--success-green);" id="stat_status">LIVE</h2>
-            </div>
-            <div class="card-container" style="text-align:center; margin:0; padding:40px;">
-                <i class="fas fa-code" style="font-size:50px; color:var(--primary-sky); margin-bottom:20px;"></i>
-                <p style="color:var(--text-gray); font-weight:700; font-size:18px;">السكربتات الحصرية</p>
-                <h2 style="font-size:55px; font-weight:900;" id="stat_scripts">0</h2>
-            </div>
-        </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
 
-        <div style="text-align:center; margin-top:80px; display:flex; justify-content:center; gap:25px; flex-wrap:wrap;">
-            <button class="btn-action" id="main_discord_btn" style="padding:25px 60px; font-size:20px;">
-                <i class="fab fa-discord"></i> انضم لمجتمعنا
-            </button>
-            <button class="btn-action" id="main_fivem_btn" style="padding:25px 60px; background:white; color:black; font-size:20px;">
-                <i class="fas fa-play"></i> ابدأ اللعب الآن
-            </button>
-        </div>
-    </section>
-
-    <section id="laws_section" class="page">
-        <div style="text-align:center; margin-bottom:60px;">
-            <h1 style="font-size:60px; font-weight:900;">دستور المدينة</h1>
-            <p style="color:var(--text-gray);">يرجى قراءة جميع القوانين لتجنب العقوبات الإدارية</p>
-        </div>
-        <div id="laws_render_box">
-            </div>
-    </section>
-
-    <section id="store_section" class="page">
-        <div style="text-align:center; margin-bottom:60px;">
-            <h1 style="font-size:60px; font-weight:900;">المتجر الحصري</h1>
-            <p style="color:var(--text-gray);">احصل على أفضل المميزات لدعم مسيرتك في المدينة</p>
-        </div>
-        <div id="store_render_box" class="grid-layout">
-            </div>
-    </section>
-
-    <section id="apply_section" class="page">
-        <div class="card-container" style="max-width:900px;">
-            <h2 style="text-align:center; margin-bottom:45px; font-size:38px; font-weight:900; color:var(--primary-sky);">مركز التوظيف الموحد</h2>
-            
-            <div style="margin-bottom:40px;">
-                <label class="form-label" style="font-weight:800; margin-bottom:15px; display:block;">ما هي الجهة التي تود خدمتها؟</label>
-                <select id="apply_category_select" class="form-input" onchange="buildDynamicForm()" style="font-weight:700;">
-                    <option value="">-- يرجى اختيار القسم من القائمة --</option>
-                    <option value="police">قوات الشرطة (Police Department)</option>
-                    <option value="ems">الخدمات الطبية والطوارئ (EMS)</option>
-                    <option value="admin">الطاقم الإداري للمدينة (Staff)</option>
-                </select>
-            </div>
-
-            <div id="dynamic_form_area" style="animation: fadeIn 0.5s;">
-                </div>
-
-            <div id="form_footer" style="display:none; margin-top:30px; padding-top:20px; border-top:1px solid var(--glass-border);">
-                <p style="color:var(--text-gray); font-size:13px; margin-bottom:20px;">بضغطك على إرسال، أنت تقر بصحة البيانات المدللة وتوافق على شروط الخدمة.</p>
-                <button id="final_submit_btn" class="btn-action" style="width:100%;" onclick="processApplication()">
-                    <i class="fas fa-paper-plane"></i> إرسال الطلب للمراجعة الرسمية
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="news_section" class="page">
-        <div style="text-align:center; margin-bottom:50px;">
-            <h1 style="font-size:50px; font-weight:900;">مركز الإشعارات</h1>
-            <p style="color:var(--text-gray);">تابع حالة طلباتك وآخر التحديثات</p>
-        </div>
-        <div id="news_render_box" style="max-width:950px; margin:auto;">
-            </div>
-    </section>
-
-    <section id="super_admin_view" class="page">
-        <h1 style="color:var(--gold-color); margin-bottom:50px; text-align:center; font-size:50px; font-weight:900;">
-            <i class="fas fa-crown"></i> الإدارة العليا (Control Panel)
-        </h1>
-
-        <div class="grid-layout">
-            <div class="card-container" style="margin:0;">
-                <h3 style="color:var(--primary-sky); margin-bottom:25px; font-weight:800;"><i class="fas fa-tools"></i> إعدادات الواجهة</h3>
-                <label class="form-label">عدد السكربتات المبرمجة</label>
-                <input type="number" id="super_set_scripts" class="form-input">
-                <label class="form-label">حالة السيرفر الحالية</label>
-                <select id="super_set_status" class="form-input">
-                    <option value="LIVE">متصل (LIVE)</option>
-                    <option value="MAINTENANCE">في وضع الصيانة</option>
-                    <option value="OFFLINE">مغلق حالياً</option>
-                </select>
-                <label class="form-label">رابط دعوة الديسكورد</label>
-                <input type="text" id="super_set_disc" class="form-input">
-                <button class="btn-action" style="width:100%" onclick="updateMainConfig()">تحديث البيانات العامة</button>
-            </div>
-
-            <div class="card-container" style="margin:0;">
-                <h3 style="color:var(--primary-sky); margin-bottom:25px; font-weight:800;"><i class="fas fa-plus-circle"></i> إضافة مادة قانونية</h3>
-                <input type="text" id="new_law_cat" placeholder="التصنيف (مثال: العقوبات)" class="form-input">
-                <input type="text" id="new_law_title" placeholder="عنوان القانون" class="form-input">
-                <textarea id="new_law_desc" placeholder="نص المادة بالتفصيل..." class="form-input" rows="4"></textarea>
-                <button class="btn-action" style="width:100%; background:var(--success-green);" onclick="submitNewLaw()">نشر القانون فوراً</button>
-            </div>
-
-            <div class="card-container" style="margin:0;">
-                <h3 style="color:var(--primary-sky); margin-bottom:25px; font-weight:800;"><i class="fas fa-cart-plus"></i> إضافة منتج جديد</h3>
-                <input type="text" id="new_prod_name" placeholder="اسم المنتج" class="form-input">
-                <input type="text" id="new_prod_price" placeholder="السعر (مثال: 50$)" class="form-input">
-                <input type="text" id="new_prod_desc" placeholder="وصف المنتج..." class="form-input">
-                <button class="btn-action" style="width:100%; background:var(--success-green);" onclick="submitNewProduct()">إدراج في المتجر</button>
-            </div>
-        </div>
-
-        <div class="grid-layout" style="margin-top:50px;">
-            <div class="card-container" style="margin:0;">
-                <h3 style="margin-bottom:25px; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">إدارة المحتوى القانوني</h3>
-                <div id="super_laws_list_area"></div>
-            </div>
-            <div class="card-container" style="margin:0;">
-                <h3 style="margin-bottom:25px; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">إدارة قائمة المتجر</h3>
-                <div id="super_prods_list_area"></div>
-            </div>
-        </div>
-    </section>
-
-    <section id="department_dash_view" class="page">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:50px;">
-            <h2 id="dash_main_title" style="color:var(--primary-sky); font-size:40px; font-weight:900;">لوحة المعالجة</h2>
-            <button class="btn-action" style="background:var(--error-red); padding:10px 25px;" onclick="navigate('home')">تسجيل خروج</button>
-        </div>
-        <div id="dash_requests_container">
-            </div>
-    </section>
-
-    <script>
-        /* ------------------------------------------------------------
-        1. إعدادات Firebase الكاملة
-        ------------------------------------------------------------
-        */
         const firebaseConfig = {
-            apiKey: "AIzaSyACXJdBLFAJJvGRtawSj6el_yvWpDkG_vU",
-            authDomain: "ideal-website-2786f.firebaseapp.com",
-            databaseURL: "https://ideal-website-2786f-default-rtdb.firebaseio.com",
-            projectId: "ideal-website-2786f",
-            storageBucket: "ideal-website-2786f.appspot.com",
-            appId: "1:644257022389:web:fbdf65d839385d820054c2"
+            apiKey: "AIzaSyDDIjZKeWikH2-vphDO9OaxZ6rfT0jbk4E",
+            databaseURL: "https://ideal124-default-rtdb.firebaseio.com",
+            projectId: "ideal124",
+            appId: "1:114614295641:web:37ec1565a97a238b102548"
         };
 
-        // تهيئة النظام
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const database = firebase.database();
-        const fireAuth = firebase.auth();
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        /* ------------------------------------------------------------
-        2. مصفوفة الأذونات والروابط السرية
-        ------------------------------------------------------------
-        */
-        const accessKeys = {
-            police:  { user: "PoliceIdel", pass: "863926881P", label: "جهاز الشرطة" },
-            ems:     { user: "medidel", pass: "8258261994M", label: "جهاز الإسعاف" },
-            admin:   { user: "Adminidl", pass: "90716893519Ad", label: "الطاقم الإداري" },
-            super:   { user: "Managidl", pass: "0868185846728Ad", label: "الإدارة العليا" }
-        };
+        let currentUser = JSON.parse(localStorage.getItem('user_session'));
+        let currentSector = "";
 
-        const discordWebhooks = {
-            police: "https://discord.com/api/webhooks/1491139055373648023/Bzbv_J0k5ON9G-lahfN-XR3UHL5a1LezHf-B-zx8Cl4_VqFq77yiw3P3p1U-_5LUXfFI",
-            ems: "https://ptb.discord.com/api/webhooks/1491140934086426725/TvzhUQaLwtdncPqTDv9DUquEjhvFiF8T1evkCABMIQwYbaMXHEPJgDdPxLsalgvjFKT0",
-            admin: "https://ptb.discord.com/api/webhooks/1491140491780161537/TQTXHNgGChj3mGxrVSW7X9WM5KbZlemuRzw62h5g_Tu8SYNyKzqpvjNTsjDoR2qy2gGL"
-        };
-
-        /* ------------------------------------------------------------
-        3. المتغيرات والتحكم بالماوس
-        ------------------------------------------------------------
-        */
-        let currentUser = null;
-        let activeAdminType = null;
-
-        // تتبع حركة الماوس المخصص
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        const aura = document.getElementById('cursor-aura');
         document.addEventListener('mousemove', (e) => {
-            const glow = document.getElementById('cursor-glow');
-            const dot = document.getElementById('cursor-dot');
-            
-            // تحديث المواقع بسلاسة
-            requestAnimationFrame(() => {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
-                dot.style.left = e.clientX + 'px';
-                dot.style.top = e.clientY + 'px';
-            });
+            cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+            aura.style.left = e.clientX + 'px'; aura.style.top = e.clientY + 'px';
         });
 
-        // تأثير الماوس عند الضغط
-        document.addEventListener('mousedown', () => {
-            document.getElementById('cursor-dot').style.transform = 'translate(-50%, -50%) scale(0.7)';
-        });
-        document.addEventListener('mouseup', () => {
-            document.getElementById('cursor-dot').style.transform = 'translate(-50%, -50%) scale(1)';
-        });
-
-        /* ------------------------------------------------------------
-        4. وظائف النظام الأساسية (UI/UX)
-        ------------------------------------------------------------
-        */
-
-        // نظام التنبيهات المطور
-        function notify(text) {
-            const toast = document.getElementById('toast-box');
-            const msg = document.getElementById('toast-message');
-            msg.innerText = text;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 4500);
-        }
-
-        // التحكم بالقائمة الجانبية
-        function toggleMainSidebar() {
-            document.getElementById('mainSidebar').classList.toggle('active');
-        }
-
-        // نظام التنقل الذكي
-        function navigate(pageId) {
-            // إغلاق كل شيء أولاً
-            document.querySelectorAll('.page').forEach(p => {
-                p.style.display = 'none';
-                p.classList.remove('active');
-            });
-
-            // تفعيل الصفحة المطلوبة
-            const targetPage = document.getElementById(pageId);
-            targetPage.style.display = 'block';
-            setTimeout(() => targetPage.classList.add('active'), 50);
-
-            // تحديث حالة الأزرار في النافبار
-            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
-            // غلق السايدبار إذا كان مفتوحاً
-            if(document.getElementById('mainSidebar').classList.contains('active')) {
-                toggleMainSidebar();
-            }
-
-            // تحميل البيانات بناءً على الصفحة
-            if(pageId === 'laws_section') renderCityLaws();
-            if(pageId === 'store_section') renderCityStore();
-            if(pageId === 'news_section') renderUserNews();
-            
+        // Navigation
+        window.navigate = (id) => {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-center a').forEach(a => a.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            if(document.getElementById('link-' + id)) document.getElementById('link-' + id).classList.add('active');
             window.scrollTo(0, 0);
-        }
+        };
 
-        /* ------------------------------------------------------------
-        5. نظام الهوية الرقمية (Discord Auth)
-        ------------------------------------------------------------
-        */
-        function initDiscordAuth() {
-            const provider = new firebase.auth.OAuthProvider('discord.com');
-            
-            fireAuth.signInWithPopup(provider).then((result) => {
-                currentUser = result.user;
-                document.getElementById('userDisplayName').innerText = currentUser.displayName;
-                
-                // تحديث قاعدة بيانات المستخدمين
-                database.ref('registered_users/' + currentUser.uid).update({
-                    username: currentUser.displayName,
-                    photo: currentUser.photoURL,
-                    email: currentUser.email,
-                    lastSeen: firebase.database.ServerValue.TIMESTAMP
-                });
-                
-                notify("أهلاً بك مجدداً، " + currentUser.displayName);
-            }).catch((error) => {
-                console.error("Auth Error:", error);
-                notify("فشل تسجيل الدخول، يرجى المحاولة لاحقاً.");
+        window.openModal = (id) => document.getElementById(id).style.display = 'flex';
+        window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+
+        window.toggleAuth = (isLogin) => {
+            document.getElementById('auth-login-fields').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('auth-reg-fields').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('auth-title').innerText = isLogin ? 'تسجيل الدخول' : 'إنشاء حساب جديد';
+        };
+
+        // Auth
+        window.handleRegister = () => {
+            const real = document.getElementById('reg-real').value;
+            const rp = document.getElementById('reg-rp').value;
+            const pass = document.getElementById('reg-pass').value;
+            if (!real || !rp || !pass) return alert("املاً البيانات!");
+            set(ref(db, 'users/' + rp), { realName: real, rpName: rp, password: pass, rank: 'citizen' }).then(() => {
+                alert("تم التسجيل!"); location.reload();
             });
-        }
+        };
 
-        /* ------------------------------------------------------------
-        6. إدارة المحتوى (CRUD - القوانين والمتجر)
-        ------------------------------------------------------------
-        */
+        window.handleLogin = () => {
+            const user = document.getElementById('log-user').value;
+            const pass = document.getElementById('log-pass').value;
+            onValue(ref(db, 'users/' + user), (snap) => {
+                const data = snap.val();
+                if (data && data.password === pass) {
+                    localStorage.setItem('user_session', JSON.stringify(data));
+                    location.reload();
+                } else alert("خطأ!");
+            }, { onlyOnce: true });
+        };
 
-        // إضافة قانون
-        function submitNewLaw() {
-            const cat = document.getElementById('new_law_cat').value;
-            const title = document.getElementById('new_law_title').value;
-            const desc = document.getElementById('new_law_desc').value;
+        // Staff Login
+        window.handleStaffLogin = () => {
+            const u = document.getElementById('staff-user').value;
+            const p = document.getElementById('staff-pass').value;
+            const keys = { "admin": "admin123", "police16": "29528991", "ems16": "ems123", "media16": "media123", "master": "master123" };
 
-            if(!cat || !title || !desc) return alert("الرجاء ملء جميع الحقول القانونية.");
-
-            const lawRef = database.ref('content/laws').push();
-            lawRef.set({
-                category: cat,
-                title: title,
-                description: desc,
-                createdAt: Date.now()
-            }).then(() => {
-                notify("تم نشر المادة القانونية بنجاح.");
-                document.getElementById('new_law_cat').value = '';
-                document.getElementById('new_law_title').value = '';
-                document.getElementById('new_law_desc').value = '';
-                loadSuperAdminLists();
-            });
-        }
-
-        // عرض القوانين
-        function renderCityLaws() {
-            const container = document.getElementById('laws_render_box');
-            container.innerHTML = '<p style="text-align:center;">جاري جلب الدستور...</p>';
-
-            database.ref('content/laws').on('value', (snap) => {
-                container.innerHTML = '';
-                if(!snap.exists()) {
-                    container.innerHTML = '<div class="card-container" style="text-align:center;">لا يوجد مواد قانونية منشورة حالياً.</div>';
-                    return;
+            if (keys[u] === p) {
+                closeModal('modal-dash-login');
+                if (u === 'master') navigate('admin-master');
+                else {
+                    currentSector = u.replace('16', '');
+                    document.getElementById('sector-label').innerText = "لوحة " + currentSector;
+                    loadSectorApps();
+                    navigate('sector-dashboard');
                 }
-                snap.forEach((child) => {
-                    const law = child.val();
-                    container.innerHTML += `
-                        <div class="card-container" style="margin-bottom:25px; border-right: 5px solid var(--primary-sky);">
-                            <span style="background:var(--primary-sky); color:white; padding:5px 15px; border-radius:10px; font-size:12px; font-weight:800;">${law.category}</span>
-                            <h3 style="margin:15px 0; font-size:24px; color:var(--text-white);">${law.title}</h3>
-                            <p style="color:var(--text-gray); line-height:1.8;">${law.description}</p>
-                        </div>
-                    `;
-                });
+            } else alert("بيانات خاطئة!");
+        };
+
+        // Applications
+        window.updateApplyForm = () => {
+            if (!currentUser) { alert("سجل دخولك!"); document.getElementById('apply-sector').value = ""; return; }
+            document.getElementById('apply-form-body').style.display = 'block';
+            document.getElementById('apply-name').value = currentUser.rpName;
+        };
+
+        window.submitApplication = () => {
+            const sector = document.getElementById('apply-sector').value;
+            const desc = document.getElementById('apply-desc').value;
+            if (!desc) return alert("اكتب الوصف!");
+            push(ref(db, 'applications'), { sender: currentUser.rpName, sector: sector, desc: desc, date: new Date().toLocaleString() }).then(() => {
+                alert("تم الإرسال!"); navigate('home');
             });
-        }
+        };
 
-        // إضافة منتج
-        function submitNewProduct() {
-            const name = document.getElementById('new_prod_name').value;
-            const price = document.getElementById('new_prod_price').value;
-            const desc = document.getElementById('new_prod_desc').value;
-
-            if(!name || !price) return alert("يرجى إدخال البيانات الأساسية للمنتج.");
-
-            database.ref('content/store').push({
-                name: name,
-                price: price,
-                desc: desc
-            }).then(() => {
-                notify("تمت إضافة المنتج للمتجر.");
-                document.getElementById('new_prod_name').value = '';
-                document.getElementById('new_prod_price').value = '';
-                document.getElementById('new_prod_desc').value = '';
-                loadSuperAdminLists();
-            });
-        }
-
-        // عرض المتجر
-        function renderCityStore() {
-            const container = document.getElementById('store_render_box');
-            database.ref('content/store').on('value', (snap) => {
-                container.innerHTML = '';
-                if(!snap.exists()) {
-                    container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">المتجر لا يحتوي على منتجات حالياً.</p>';
-                    return;
-                }
-                snap.forEach((child) => {
-                    const item = child.val();
-                    container.innerHTML += `
-                        <div class="card-container" style="text-align:center; margin:0; transition:0.3s;">
-                            <div style="width:80px; height:80px; background:rgba(14, 165, 233, 0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px auto;">
-                                <i class="fas fa-gem" style="font-size:30px; color:var(--primary-sky);"></i>
-                            </div>
-                            <h3 style="font-weight:900; margin-bottom:10px;">${item.name}</h3>
-                            <p style="color:var(--text-gray); font-size:14px; min-height:40px;">${item.desc}</p>
-                            <div style="font-size:32px; font-weight:900; color:var(--gold-color); margin:20px 0;">${item.price}</div>
-                            <button class="btn-action" style="width:100%;" onclick="notify('يرجى التواصل مع الإدارة العليا لإتمام الشراء')">طلب المنتج</button>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        /* ------------------------------------------------------------
-        7. إدارة الوصول الإداري (Security Logic)
-        ------------------------------------------------------------
-        */
-        function triggerLogin(type) {
-            activeAdminType = type;
-            const modal = document.getElementById('adminLoginModal');
-            document.getElementById('modalTitleText').innerText = "بوابة " + accessKeys[type].label;
-            modal.style.display = 'flex';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminLoginModal').style.display = 'none';
-            document.getElementById('adminUserInput').value = '';
-            document.getElementById('adminPassInput').value = '';
-        }
-
-        function validateAdminAccess() {
-            const user = document.getElementById('adminUserInput').value;
-            const pass = document.getElementById('adminPassInput').value;
-            const creds = accessKeys[activeAdminType];
-
-            if(user === creds.user && pass === creds.pass) {
-                notify("تم التحقق بنجاح.. جاري التحميل");
-                setTimeout(() => {
-                    closeAdminModal();
-                    if(activeAdminType === 'super') {
-                        navigate('super_admin_view');
-                        loadSuperAdminLists();
-                        loadMainConfig();
-                    } else {
-                        openDepartmentDashboard(activeAdminType);
-                    }
-                }, 1000);
-            } else {
-                alert("خطأ في بيانات الدخول، يرجى التأكد من الـ ID والكود السري.");
-            }
-        }
-
-        /* ------------------------------------------------------------
-        8. وظائف الإدارة العليا (Super Admin Utilities)
-        ------------------------------------------------------------
-        */
-        function loadSuperAdminLists() {
-            const lawsList = document.getElementById('super_laws_list_area');
-            const prodsList = document.getElementById('super_prods_list_area');
-
-            // جلب القوانين للإدارة
-            database.ref('content/laws').once('value', (snap) => {
-                lawsList.innerHTML = '';
-                snap.forEach((child) => {
-                    const l = child.val();
-                    lawsList.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:12px; margin-bottom:10px; border-right:3px solid var(--primary-sky);">
-                            <span style="font-weight:700;">${l.title}</span>
-                            <button onclick="deleteData('content/laws', '${child.key}')" style="background:none; border:none; color:var(--error-red); cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    `;
-                });
-            });
-
-            // جلب المنتجات للإدارة
-            database.ref('content/store').once('value', (snap) => {
-                prodsList.innerHTML = '';
-                snap.forEach((child) => {
-                    const p = child.val();
-                    prodsList.innerHTML += `
-                        <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); padding:15px; border-radius:12px; margin-bottom:10px; border-right:3px solid var(--gold-color);">
-                            <span style="font-weight:700;">${p.name} - ${p.price}</span>
-                            <button onclick="deleteData('content/store', '${child.key}')" style="background:none; border:none; color:var(--error-red); cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        function deleteData(path, key) {
-            if(confirm("هل أنت متأكد من حذف هذا العنصر نهائياً من النظام؟")) {
-                database.ref(path + '/' + key).remove().then(() => {
-                    notify("تم الحذف بنجاح.");
-                    loadSuperAdminLists();
-                });
-            }
-        }
-
-        function updateMainConfig() {
-            const scripts = document.getElementById('super_set_scripts').value;
-            const status = document.getElementById('super_set_status').value;
-            const disc = document.getElementById('super_set_disc').value;
-
-            database.ref('config/main').set({
-                scripts: scripts,
-                status: status,
-                discordUrl: disc
-            }).then(() => notify("تم تحديث إعدادات السيرفر بنجاح."));
-        }
-
-        function loadMainConfig() {
-            database.ref('config/main').once('value', (snap) => {
-                if(snap.exists()){
-                    const c = snap.val();
-                    document.getElementById('super_set_scripts').value = c.scripts || 0;
-                    document.getElementById('super_set_status').value = c.status || "LIVE";
-                    document.getElementById('super_set_disc').value = c.discordUrl || "";
-                }
-            });
-        }
-
-        /* ------------------------------------------------------------
-        9. نظام التقديمات (Applications Processing)
-        ------------------------------------------------------------
-        */
-        function buildDynamicForm() {
-            const type = document.getElementById('apply_category_select').value;
-            const area = document.getElementById('dynamic_form_area');
-            const footer = document.getElementById('form_footer');
-
-            if(!currentUser) {
-                alert("يجب تسجيل الدخول عبر ديسكورد أولاً لتتمكن من التقديم.");
-                document.getElementById('apply_category_select').value = "";
-                return;
-            }
-
-            if(!type) {
-                area.innerHTML = '';
-                footer.style.display = 'none';
-                return;
-            }
-
-            footer.style.display = 'block';
-            let formHTML = `
-                <div class="grid-layout" style="margin-top:0;">
-                    <div>
-                        <label class="form-label">الاسم الكامل (الحقيقي)</label>
-                        <input type="text" id="f_name" class="form-input" placeholder="اكتب اسمك هنا">
-                    </div>
-                    <div>
-                        <label class="form-label">العمر</label>
-                        <input type="number" id="f_age" class="form-input" placeholder="مثال: 20">
-                    </div>
-                </div>
-                <label class="form-label">معرف الديسكورد (Discord ID/Tag)</label>
-                <input type="text" id="f_discord" class="form-input" value="${currentUser.displayName}" readonly style="opacity:0.7">
-                
-                <label class="form-label">لماذا تختار IDEAL TOWN؟</label>
-                <textarea id="f_reason" class="form-input" rows="3" placeholder="تحدث عن سبب رغبتك في الانضمام..."></textarea>
-                
-                <label class="form-label">الخبرات السابقة في هذا المجال</label>
-                <textarea id="f_exp" class="form-input" rows="4" placeholder="اذكر المدن أو المناصب التي شغلتها سابقاً..."></textarea>
-            `;
-            area.innerHTML = formHTML;
-        }
-
-        function processApplication() {
-            const type = document.getElementById('apply_category_select').value;
-            const data = {
-                uid: currentUser.uid,
-                realName: document.getElementById('f_name').value,
-                age: document.getElementById('f_age').value,
-                discord: currentUser.displayName,
-                reason: document.getElementById('f_reason').value,
-                experience: document.getElementById('f_exp').value,
-                status: 'pending',
-                timestamp: Date.now()
-            };
-
-            if(!data.realName || !data.age || !data.experience) {
-                return alert("يرجى ملء كافة البيانات المطلوبة قبل الإرسال.");
-            }
-
-            database.ref('applications/' + type).push(data).then(() => {
-                notify("تم إرسال طلبك بنجاح! سيتم إخطارك بالنتيجة قريباً.");
-                
-                // إرسال تنبيه الويب هوك للديسكورد
-                if(discordWebhooks[type]) {
-                    fetch(discordWebhooks[type], {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            embeds: [{
-                                title: "📝 طلب انضمام جديد",
-                                description: `القسم المستهدف: **${accessKeys[type].label}**\nالمقدم: **${data.discord}**\nالاسم: ${data.realName}\nالعمر: ${data.age}`,
-                                color: 5814783,
-                                footer: { text: "IDEAL TOWN SYSTEM 2026" }
-                            }]
-                        })
-                    });
-                }
-                navigate('home');
-            });
-        }
-
-        /* ------------------------------------------------------------
-        10. لوحات إدارة الأقسام (Department Actions)
-        ------------------------------------------------------------
-        */
-        function openDepartmentDashboard(type) {
-            navigate('department_dash_view');
-            const title = document.getElementById('dash_main_title');
-            const container = document.getElementById('dash_requests_container');
-            title.innerText = "طلبات " + accessKeys[type].label;
-
-            database.ref('applications/' + type).on('value', (snap) => {
-                container.innerHTML = '';
-                if(!snap.exists()) {
-                    container.innerHTML = '<div class="card-container">لا يوجد طلبات معلقة لهذا القسم حالياً.</div>';
-                    return;
-                }
-                snap.forEach((child) => {
-                    const app = child.val();
-                    if(app.status === 'pending') {
-                        container.innerHTML += `
-                            <div class="card-container" style="margin-bottom:30px; border-left: 5px solid var(--primary-sky);">
-                                <div style="display:flex; justify-content:space-between;">
-                                    <h3 style="color:var(--primary-sky)">${app.discord}</h3>
-                                    <small>${new Date(app.timestamp).toLocaleDateString()}</small>
-                                </div>
-                                <hr style="border:0; border-top:1px solid var(--glass-border); margin:15px 0;">
-                                <div class="grid-layout" style="margin:0; gap:20px;">
-                                    <p><b>الاسم:</b> ${app.realName}</p>
-                                    <p><b>العمر:</b> ${app.age}</p>
-                                </div>
-                                <p style="margin-top:15px;"><b>الخبرات:</b><br>${app.experience}</p>
-                                <div style="margin-top:30px; display:flex; gap:15px;">
-                                    <button class="btn-action" style="background:var(--success-green); flex:1;" onclick="setAppStatus('${type}', '${child.key}', 'accepted')">قبول الشخص</button>
-                                    <button class="btn-action" style="background:var(--error-red); flex:1;" onclick="setAppStatus('${type}', '${child.key}', 'rejected')">رفض الطلب</button>
+        function loadSectorApps() {
+            const area = document.getElementById('sector-content');
+            onValue(ref(db, 'applications'), (snap) => {
+                area.innerHTML = `<h2>طلبات انضمام قطاع: ${currentSector}</h2><br>`;
+                snap.forEach(item => {
+                    const data = item.val();
+                    if (data.sector === currentSector) {
+                        area.innerHTML += `
+                            <div class="news-card">
+                                <h3>المرسل: ${data.sender}</h3>
+                                <p>${data.desc}</p>
+                                <div style="margin-top: 15px;">
+                                    <button class="status-btn status-accept" onclick="processApp('${item.key}', 'مقبول', '${data.sender}')">قبول</button>
+                                    <button class="status-btn status-reject" onclick="processApp('${item.key}', 'مرفوض', '${data.sender}')">رفض</button>
                                 </div>
                             </div>
                         `;
@@ -1110,90 +684,91 @@
             });
         }
 
-        function setAppStatus(type, key, status) {
-            database.ref(`applications/${type}/${key}`).update({ status: status }).then(() => {
-                notify("تم تحديث حالة الطلب وإرسال النتيجة.");
+        window.processApp = (key, res, user) => {
+            const newsMsg = { 
+                title: "إشعار قبول جديد", 
+                body: `تم قبول المواطن [ ${user} ] في قطاع [ ${currentSector} ]، مبارك لك!`, 
+                date: new Date().toLocaleString() 
+            };
+            if(res === 'مقبول') push(ref(db, 'news_feed'), newsMsg);
+            remove(ref(db, 'applications/' + key)).then(() => alert("تمت المعالجة!"));
+        };
+
+        onValue(ref(db, 'news_feed'), (snap) => {
+            const feed = document.getElementById('news-feed');
+            feed.innerHTML = "";
+            snap.forEach(child => {
+                const n = child.val();
+                feed.innerHTML += `<div class="news-card"><h3>${n.title}</h3><p>${n.body}</p><small>${n.date}</small></div>`;
             });
-        }
-
-        /* ------------------------------------------------------------
-        11. مركز نتائج المستخدم (User Feedback)
-        ------------------------------------------------------------
-        */
-        function renderUserNews() {
-            const container = document.getElementById('news_render_box');
-            if(!currentUser) {
-                container.innerHTML = '<div class="card-container" style="text-align:center;">يرجى تسجيل الدخول لمتابعة أخبار طلباتك.</div>';
-                return;
-            }
-
-            database.ref('applications').on('value', (snap) => {
-                container.innerHTML = '';
-                let hasNews = false;
-                snap.forEach((dept) => {
-                    dept.forEach((appSnap) => {
-                        const app = appSnap.val();
-                        if(app.uid === currentUser.uid && app.status !== 'pending') {
-                            hasNews = true;
-                            const isAccepted = app.status === 'accepted';
-                            container.innerHTML += `
-                                <div class="card-container" style="display:flex; align-items:center; justify-content:space-between; border-right: 6px solid ${isAccepted ? 'var(--success-green)' : 'var(--error-red)'}">
-                                    <div>
-                                        <h4 style="color:var(--primary-sky); font-size:20px;">نتيجة التقديم: ${dept.key.toUpperCase()}</h4>
-                                        <p style="margin-top:5px;">تمت مراجعة طلبك بواسطة الإدارة، والنتيجة هي الإقرار بـ <b>${isAccepted ? 'القبول المبدئي' : 'الرفض'}</b>.</p>
-                                    </div>
-                                    <div style="background:${isAccepted ? 'var(--success-green)' : 'var(--error-red)'}; color:white; padding:10px 25px; border-radius:15px; font-weight:900;">
-                                        ${isAccepted ? 'مقبول' : 'مرفوض'}
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    });
-                });
-                if(!hasNews) container.innerHTML = '<div class="card-container" style="text-align:center;">لا يوجد نتائج جديدة لطلباتك حالياً.</div>';
-            });
-        }
-
-        /* ------------------------------------------------------------
-        12. المزامنة المباشرة (Live Stats Sync)
-        ------------------------------------------------------------
-        */
-        database.ref('config/main').on('value', (snap) => {
-            if(snap.exists()) {
-                const c = snap.val();
-                document.getElementById('stat_scripts').innerText = c.scripts || 0;
-                document.getElementById('stat_status').innerText = c.status || "LIVE";
-                document.getElementById('stat_status').style.color = c.status === "LIVE" ? "var(--success-green)" : "var(--error-red)";
-                
-                document.getElementById('main_discord_btn').onclick = () => window.open(c.discordUrl || "#");
-            }
-function initGoogleAuth() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    
-    firebase.auth().signInWithPopup(provider).then((result) => {
-        const user = result.user;
-        
-        // تحديث اسم المستخدم في الصفحة تلقائياً
-        const nameElem = document.getElementById('userDisplayName');
-        if (nameElem) nameElem.innerText = "أهلاً، " + user.displayName;
-
-        // حفظ البيانات في الـ Database (هذا هو الجزء اللي سألت عنه في آخر الصورة)
-        firebase.database().ref('registeredUsers/' + user.uid).set({
-            username: user.displayName,
-            photo: user.photoURL,
-            email: user.email,
-            lastLogin: new Date().toLocaleString()
         });
 
-        alert("أهلاً بك يا بطل: " + user.displayName);
-    }).catch((error) => {
-        console.error("خطأ في تسجيل دخول جوجل:", error);
-        alert("تأكد من تفعيل Google في Firebase Console واختيار إيميل الدعم");
-    });
-}
+        onValue(ref(db, 'rules_mubawwab'), (snap) => {
+            const side = document.getElementById('rules-categories');
+            side.innerHTML = "";
+            snap.forEach(child => {
+                side.innerHTML += `<div class="rule-tab" onclick="loadRulesFor('${child.key}')">${child.key}</div>`;
+            });
+        });
 
-}
+        window.loadRulesFor = (cat) => {
+            const display = document.getElementById('rules-content-display');
+            display.innerHTML = `<h2>${cat}</h2><br>`;
+            onValue(ref(db, 'rules_mubawwab/' + cat), (snap) => {
+                snap.forEach(child => {
+                    display.innerHTML += `<div style="margin-bottom:20px"><strong>${child.val().title}</strong><p>${child.val().text}</p></div>`;
+                });
+            });
+        };
 
+        // Master Admin Section (FULL INTEGRATION)
+        window.loadAdminSection = (type) => {
+            const area = document.getElementById('admin-master-content');
+            if (type === 'rules') {
+                area.innerHTML = `<h2>إدارة القوانين</h2><input id="m-cat" class="input-style" placeholder="القسم"><input id="m-title" class="input-style" placeholder="العنوان"><textarea id="m-text" class="input-style" placeholder="النص"></textarea><button class="btn-login-trigger" onclick="saveRuleMaster()">إضافة</button>`;
+            } else if (type === 'settings') {
+                area.innerHTML = `<h2>إعدادات</h2><input id="s-ip" class="input-style" placeholder="IP"><input id="s-disc" class="input-style" placeholder="ديسكورد"><button class="btn-login-trigger">حفظ</button>`;
+            } else if (type === 'users') {
+                area.innerHTML = `<h2>قائمة المستخدمين</h2><div id="admin-users-list">جاري التحميل...</div>`;
+                onValue(ref(db, 'users'), (snap) => {
+                    const list = document.getElementById('admin-users-list');
+                    list.innerHTML = "";
+                    snap.forEach(user => {
+                        list.innerHTML += `<div class="news-card">المواطن: ${user.key} | الاسم: ${user.val().realName}</div>`;
+                    });
+                });
+            } else if (type === 'store') {
+                area.innerHTML = `<h2>إدارة المتجر</h2><input id="p-name" class="input-style" placeholder="المنتج"><input id="p-price" class="input-style" placeholder="السعر"><input id="p-img" class="input-style" placeholder="رابط الصورة"><button class="btn-login-trigger" onclick="addProduct()">إضافة للمتجر</button><hr><div id="admin-store-list"></div>`;
+                onValue(ref(db, 'store'), (snap) => {
+                    const list = document.getElementById('admin-store-list');
+                    list.innerHTML = "";
+                    snap.forEach(p => {
+                        list.innerHTML += `<div class="news-card">${p.val().name} - ${p.val().price} <button onclick="remove(ref(db, 'store/${p.key}'))" class="status-btn status-reject">حذف</button></div>`;
+                    });
+                });
+            }
+        };
+
+        window.addProduct = () => {
+            push(ref(db, 'store'), { name: document.getElementById('p-name').value, price: document.getElementById('p-price').value, img: document.getElementById('p-img').value });
+            alert("تم!");
+        };
+
+        window.saveRuleMaster = () => {
+            push(ref(db, `rules_mubawwab/${document.getElementById('m-cat').value}`), { title: document.getElementById('m-title').value, text: document.getElementById('m-text').value });
+            alert("تم!");
+        };
+
+        // Store Page Logic
+        onValue(ref(db, 'store'), (snap) => {
+            const container = document.getElementById('store-items-container');
+            container.innerHTML = "";
+            snap.forEach(p => {
+                container.innerHTML += `<div class="product-card"><img src="${p.val().img}" class="product-img"><div style="padding:20px"><h3>${p.val().name}</h3><p>${p.val().price}</p></div></div>`;
+            });
+        });
+
+        if (currentUser) document.getElementById('btn-auth-text').innerText = "حسابي: " + currentUser.rpName;
     </script>
 </body>
 </html>
